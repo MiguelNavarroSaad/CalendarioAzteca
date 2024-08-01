@@ -1,0 +1,597 @@
+% Esta versión sólo funciona con WinEdt 6
+% Build: 20101215 (v.6.0)
+% For: Windows 7, Vista, XP, 2000
+%
+% Tal vez lo escribí alrededor de 1984 en el
+% Instituto de Investigaciones en Matemáticas Aplicadas y en Sistemas
+% de la Universidad Nacional Autónoma de México.
+% La primera institución que lo publicó fue la Sociedad Mexicana de Física.
+
+\font\bigggfnt=cmbcsc10 scaled 5160
+\font\biggfnt=ccr10 scaled 1728
+\font\hvs=phvb7t scaled 700 % hv10 scaled 700
+\font\rs=kcmbx12
+\font\kore=ycmr8 scaled 900
+\font\kone=xcmr5
+\font\wasy=wasy10 scaled 1000
+\font\fntsan=xcmti8 scaled 800
+\font\korec=xcmti10 scaled 500
+
+\def\glifo#1#2#3{\vbox to#2{\hsize#1
+  \hrule height#2 depth0pt width0pt
+  \noindent\special{pdf:image width #1 height #2 (#3.jpg)}}}
+
+\newtoks\santoral
+\newread\santo
+\immediate\openin\santo=santos.tex
+
+\newcount\anio
+\immediate\write16{Aniversario (AAAA)}
+\message{> }
+\read-1 to \anioe
+\anio\number\anioe
+\advance\anio-1
+
+\newcount\auxiliar
+\newcount\residuo
+\def\mod#1|#2{\auxiliar#1\residuo#1%
+\divide\auxiliar#2\multiply\auxiliar#2\advance\residuo-\auxiliar}
+
+\newif\ifbisiesto
+\mod\anio|{400}
+\ifnum\residuo=0\global\bisiestotrue\else\global\bisiestofalse\fi
+\mod\anio|{100}
+\ifnum\residuo=0
+  \else\ifbisiesto\global\bisiestofalse\else\global\bisiestotrue\fi\fi
+\mod\anio|4 \ifnum\residuo=0\else\global\bisiestofalse\fi
+
+\newcount\anios
+\anios-1582\advance\anios\anio
+
+\newcount\bisiestos
+\auxiliar-19\advance\auxiliar\anios\divide\auxiliar100 \bisiestos-\auxiliar
+\divide\auxiliar4\advance\bisiestos\auxiliar
+\auxiliar1\advance\auxiliar\anios\divide\auxiliar4\advance\bisiestos\auxiliar
+
+\newcount\mes\mes12
+\newcount\dia\dia1
+
+\newcount\dias
+\dias\anios\multiply\dias365\advance\dias\bisiestos\advance\dias-287
+
+\newcount\n
+\newcount\m
+\def\\{\ifnum\n<\p\global\advance\n1\else
+  \ifnum\m<\U\number\m\global\advance\m1\fi\fi}
+
+\newcount\transcurridos
+\newcount\U
+\newcount\p
+\newbox\dica
+\newbox\ene
+\newbox\feb
+\newbox\mar
+\newbox\abr
+\newbox\may
+\newbox\jun
+\newbox\jul
+\newbox\ago
+\newbox\sep
+\newbox\oct
+\newbox\nov
+\newbox\dic
+\newbox\enes
+
+\def\nommes{\ifcase\mes\or ENERO\or FEBRERO\or MARZO\or ABRIL\or MAYO\or
+  JUNIO\or JULIO\or AGOSTO\or SEPTIEMBRE\or OCTUBRE\or NOVIEMBRE\or
+  DICIEMBRE\fi}
+
+\transcurridos336
+\ifbisiesto \else\ifnum\mes>2 \advance\transcurridos-1\fi\fi
+\advance\dias\transcurridos
+\mod\dias|7 \p\ifcase\residuo 5\or 6\or 7\or 1\or 2\or 3\or 4\fi
+\U32
+\n1\m1
+\global\setbox\dica\vbox to1in{\hsize1.3in\kore
+    \tabskip0pt\offinterlineskip
+    \setbox\strutbox\hbox{\vrule height8pt depth1pt width0pt}
+    \halign to\hsize{\strut#&\hfil\special{pdf:bc[1 0 0]}#\special{pdf:ec}\tabskip3pt plus1fil&
+      \hfil#&\hfil#&\hfil#&\hfil#&\hfil#&\hfil#\tabskip0pt\cr
+      \multispan8 {\nommes\kern12pt\number\anio}\hfill\cr
+    \noalign{\vskip3pt}
+      &\omit\hfill{\kone Do}\hfill&\omit\hfill{\kone Lu}\hfill&
+        \omit\hfill{\kone Ma}\hfill&\omit\hfill{\kone Mi}\hfill&
+        \omit\hfill{\kone Ju}\hfill&\omit\hfill{\kone Vi}\hfill&
+        \omit\hfill{\kone Sa}\hfill\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr}\vfill}
+
+\advance\anio1
+\mes0
+\dia1
+
+\mod\anio|{400}
+\ifnum\residuo=0\global\bisiestotrue\else\global\bisiestofalse\fi
+\mod\anio|{100}
+\ifnum\residuo=0
+  \else\ifbisiesto\global\bisiestofalse\else\global\bisiestotrue\fi\fi
+\mod\anio|4 \ifnum\residuo=0\else\global\bisiestofalse\fi
+
+\anios-1582\advance\anios\anio
+
+\auxiliar-19\advance\auxiliar\anios\divide\auxiliar100 \bisiestos-\auxiliar
+\divide\auxiliar4\advance\bisiestos\auxiliar
+\auxiliar1\advance\auxiliar\anios\divide\auxiliar4\advance\bisiestos\auxiliar
+
+\dias\anios\multiply\dias365\advance\dias\bisiestos\advance\dias-287
+
+\loop\advance\mes1 \ifnum\mes<13
+  {\transcurridos\ifcase\mes \or 0\or 31\or 60\or 91\or 121\or 152\or 182\or
+    213\or 244\or 274\or 305\or 335\fi
+  \advance\transcurridos\dia
+  \ifbisiesto \else\ifnum\mes>2 \advance\transcurridos-1\fi\fi
+  \advance\dias\transcurridos
+  \mod\dias|7 \p\ifcase\residuo 5\or 6\or 7\or 1\or 2\or 3\or 4\fi
+  \U\ifcase\mes \or 32\or \ifbisiesto 30\else 29\fi\or 32\or 31\or
+  32\or 31\or 32\or 32\or 31\or 32\or 31\or 32\fi
+  {\n1\m1
+  \global\setbox\ifcase\mes \or\ene\or\feb\or\mar\or\abr\or\may\or\jun\or%
+\jul\or\ago\or\sep\or\oct\or\nov\or\dic\fi\vbox to1in{\hsize1.3in\kore
+    \tabskip0pt\offinterlineskip
+    \setbox\strutbox\hbox{\vrule height8pt depth1pt width0pt}
+    \halign to\hsize{\strut##&\hfil\special{pdf:bc[1 0 0]}##\special{pdf:ec}\tabskip3pt plus1fil&
+      \hfil##&\hfil##&\hfil##&\hfil##&\hfil##&\hfil##\tabskip0pt\cr
+      \multispan8 {\nommes}\hfill\cr
+    \noalign{\vskip3pt}
+      &\omit\hfill{\kone Do}\hfill&\omit\hfill{\kone Lu}\hfill&
+        \omit\hfill{\kone Ma}\hfill&\omit\hfill{\kone Mi}\hfill&
+        \omit\hfill{\kone Ju}\hfill&\omit\hfill{\kone Vi}\hfill&
+        \omit\hfill{\kone Sa}\hfill\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr}\vfill}}}
+\repeat
+
+\advance\anio1
+\mes1
+\dia1
+
+\mod\anio|{400}
+\ifnum\residuo=0\global\bisiestotrue\else\global\bisiestofalse\fi
+\mod\anio|{100}
+\ifnum\residuo=0
+  \else\ifbisiesto\global\bisiestofalse\else\global\bisiestotrue\fi\fi
+\mod\anio|4 \ifnum\residuo=0\else\global\bisiestofalse\fi
+
+\anios-1582\advance\anios\anio
+
+\auxiliar-19\advance\auxiliar\anios\divide\auxiliar100 \bisiestos-\auxiliar
+\divide\auxiliar4\advance\bisiestos\auxiliar
+\auxiliar1\advance\auxiliar\anios\divide\auxiliar4\advance\bisiestos\auxiliar
+
+\dias\anios\multiply\dias365\advance\dias\bisiestos\advance\dias-287
+
+\transcurridos1
+\advance\dias\transcurridos
+\mod\dias|7 \p\ifcase\residuo 5\or 6\or 7\or 1\or 2\or 3\or 4\fi
+\U32
+\n1\m1
+\global\setbox\enes\vbox to1in{\hsize1.3in\kore
+    \tabskip0pt\offinterlineskip
+    \setbox\strutbox\hbox{\vrule height8pt depth1pt width0pt}
+    \halign to\hsize{\strut#&\hfil\special{pdf:bc[1 0 0]}#\special{pdf:ec}\tabskip3pt plus1fil&
+      \hfil#&\hfil#&\hfil#&\hfil#&\hfil#&\hfil#\tabskip0pt\cr
+      \multispan8 {\nommes\kern12pt\number\anio}\hfill\cr
+    \noalign{\vskip3pt}
+      &\omit\hfill{\kone Do}\hfill&\omit\hfill{\kone Lu}\hfill&
+        \omit\hfill{\kone Ma}\hfill&\omit\hfill{\kone Mi}\hfill&
+        \omit\hfill{\kone Ju}\hfill&\omit\hfill{\kone Vi}\hfill&
+        \omit\hfill{\kone Sa}\hfill\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr
+      &\\&\\&\\&\\&\\&\\&\\\cr}\vfill}
+
+\advance\anio-1
+\mes0
+
+\message{PROCESANDO  :}
+
+\newif\ifaniobis
+
+\newbox\vacia
+\newbox\cajabull    \setbox\cajabull=\hbox{$\bullet$}
+\newbox\AnioI
+\newbox\AnioF
+
+\newdimen\altobull  \altobull=1.5pt
+\newdimen\anchobull \anchobull=\wd\cajabull \advance\anchobull by 2.5pt
+\newdimen\altocaja  \altocaja=1.2in %1.16in
+
+\newcount\anioS     \anioS=-1195
+\newcount\anioE
+\newcount\signoA
+\newcount\signoNA
+\newcount\signoM    \signoM=15
+\newcount\signoD    \signoD=15
+\newcount\signoN
+\newcount\aux
+\newcount\numanios
+\newcount\numaniosbis
+\newcount\numdias
+\newcount\diaS      \diaS=295
+                        \mes=0
+                        \p=0
+\newcount\V
+\newcount\l
+\newcount\contador  \contador=1
+
+\def\NumeralAnio{\ifcase\signoNA\or \uno\or\dos\or\tres\or\cuatro\or\cinco\or
+  \seis\or\siete\or\ocho\or\nueve\or\diez\or\once\or\doce\or\trece\or \uno\fi}
+
+\def\GlifoAnio{\ifcase\signoA \glifo{34pt}{36pt}{tochtli}\or
+  \glifo{28pt}{36pt}{acatl}\or \glifo{21pt}{36pt}{tecpatl}\or
+  \glifo{25pt}{36pt}{cali}\or \glifo{34pt}{36pt}{tochtli}\fi}
+
+\def\NomAnioAzteca{A\~no\ \ifcase\signoNA\or uno\or dos\or tres\or cuatro\or
+  cinco\or seis\or siete\or ocho\or nueve\or diez\or once\or doce\or trece\or
+  uno\fi\ \ifcase\signoA conejo\or carrizo\or pedernal\or casa\or conejo\fi}
+
+\def\AnioAzteca{\setbox\AnioI=\hbox{\vbox{\halign{\hfil##\hfil\cr
+                  \hbox{\valign{##\cr
+                        \vbox{\NumeralAnio}\cr
+                        \noalign{\hskip-24pt}
+                        \vbox{\vskip12pt
+                              \hbox{\GlifoAnio}}\cr}}\cr
+                  \hbox{\NomAnioAzteca}\cr}}}
+\global\advance\signoA by 1
+\global\advance\signoNA by 1
+\setbox\AnioF=\hbox{\vbox{\halign{\hfil##\hfil\cr
+                  \hbox{\valign{##\cr
+                        \vbox{\NumeralAnio}\cr
+                        \noalign{\hskip-24pt}
+                        \vbox{\vskip12pt
+                              \hbox{\GlifoAnio}}\cr}}\cr
+                  \hbox{\NomAnioAzteca}\cr}}}}
+
+\def\MesAzteca{\ifcase\signoM Atlacahualo\or Tlacaxipehualiztli\or
+  Tozoztontli\or Hueytozoztli\or T\'oxcatl\or Itzacualiztli\or
+  Tecuilhuitontli\or Hueytecu\'\i lhuitl\or Tlaxochimaco\vadjust{\vskip-2pt}\or
+  Xocotlhuetzi\or Ochpaniztli\or Teotleco\or Tepe\'\i lhuitl\or
+  Quecholli\or Panquetzaliztli\or Atemoztli\or T\'\i titl\or Izcalli\or
+  Nemontemi {\ifaniobis \global\signoD=14
+  \global\advance\signoN by -6 \else \global\signoD=15
+  \global\advance\signoN by -5 \fi} \global\signoM=-1\fi%
+  \global\advance\signoM by 1}
+
+\def\DiaAzteca{\ifcase\signoD \glifo{62pt}{36pt}{cipactli}\or
+  \glifo{41pt}{36pt}{ehecatl}\or \glifo{25pt}{36pt}{cali}\or
+  \glifo{50pt}{35pt}{cuespali}\or \glifo{58pt}{34pt}{coatl}\or
+  \glifo{23pt}{36pt}{mikistli}\or \glifo{35pt}{36pt}{mazatl}\or
+  \glifo{34pt}{36pt}{tochtli}\or \glifo{50pt}{35pt}{atl}\or
+  \glifo{53pt}{36pt}{scuintli}\or \glifo{42pt}{35pt}{osomatli}\or
+  \glifo{47pt}{35pt}{malinali}\or \glifo{28pt}{36pt}{acatl}\or
+  \glifo{24pt}{36pt}{ocelotl}\or \glifo{53pt}{34pt}{cuautli}\or
+  \glifo{51pt}{36pt}{coscacua}\or \glifo{36pt}{35pt}{olin}\or
+  \glifo{21pt}{36pt}{tecpatl}\or \glifo{25pt}{36pt}{kiauitl}\or
+  \glifo{25pt}{36pt}{xochitl} \global\signoD=-1\fi %26
+  \global\advance\signoD by 1}
+
+\def\eeb{\cr\noalign{\vskip\altobull}\reglao}
+\def\eec{\cr\noalign{\vskip\altobull}}
+\def\numazt#1#2{\hbox{\vtop to0pt{\tabskip=0pt\offinterlineskip
+  \halign{##\hfil\cr #2\cr\noalign{\vskip\altobull} #1\cr}\vss}}}
+\def\reglao{\hbox to 5\anchobull{\null\hfill}}
+\def\regla{\hbox{\punto\punto\punto\punto\punto}}
+\def\dregla{\hbox{\vbox{\tabskip=0pt\offinterlineskip
+  \halign{##\hfil\cr\regla\cr\noalign{\vskip\altobull}\regla\cr}}}}
+\def\punto{\rlap{$\bullet$}\hskip\anchobull}
+\def\uno{\numazt{\punto\eeb\eeb}{\reglao\cr\reglao}}
+\def\dos{\numazt{\punto\eec\punto\eeb}{\reglao\cr\reglao}}
+\def\tres{\numazt{\punto\eec\punto\eec\punto}{\reglao\cr\reglao}}
+\def\cuatro{\numazt{\punto\eec\punto\eec\punto\eec\punto}{\reglao}}
+\def\cinco{\numazt{\eeb\eeb}{\reglao\cr\regla}}
+\def\seis{\numazt{\punto\eeb\eeb}{\reglao\cr\regla}}
+\def\siete{\numazt{\punto\eec\punto\eeb}{\reglao\cr\regla}}
+\def\ocho{\numazt{\punto\eec\punto\eec\punto}{\reglao\cr\regla}}
+\def\nueve{\numazt{\punto\eec\punto\eec\punto\eec\punto}{\regla}}
+\def\diez{\numazt{\eeb\eeb}{\dregla}}
+\def\once{\numazt{\punto\eeb\eeb}{\dregla}}
+\def\doce{\numazt{\punto\eec\punto\eeb}{\dregla}}
+\def\trece{\numazt{\punto\eec\punto\eec\punto}{\dregla}}
+
+\def\Numeral{\ifcase\signoN\uno\or\dos\or\tres\or\cuatro\or\cinco\or\seis\or
+  \siete\or\ocho\or\nueve\or\diez\or\once\or\doce\or\trece
+  \global\signoN=-1\fi \global\advance\signoN by 1}
+
+\def\mod#1|#2{\aux#1\residuo#1%
+\divide\aux#2\multiply\aux#2\advance\residuo-\aux}
+
+\gdef\diasem#1{\mod#1|7
+           \ifcase\residuo\global\p=6\l=4
+           \or        \global\p=7\l=5
+           \else          \global\p=\residuo \global\advance\p by -1
+                              \global\l\p \global\advance\l by -2\fi}
+
+\def\diames{\global\m=1
+        \global\n=1
+        \global\advance\numdias by\ifcase\mes 0\or 31\or
+         \ifaniobis 29\else 28\fi\or
+         31\or 30\or 31\or 30\or 31\or
+         31\or 30\or 31\or 30\fi
+        \diasem\numdias
+        \global\advance\mes by 1
+        \ifcase\mes\or\U=32\or \ifaniobis\U=30\else\U=29\fi\or
+        \U=32\or\U=31\or\U=32\or\U=31\or\U=32\or
+        \U=32\or\U=31\or\U=32\or\U=31\or\U=32\fi}
+
+\def\nommes{\ifcase\mes\or
+      Enero\or Febrero\or Marzo\or Abril\or Mayo\or Junio\or
+      Julio\or Agosto\or Septiembre\or Octubre\or Noviembre\or Diciembre\fi}
+
+\def\mays{\special{pdf:bc[1 0 1]}\ifcase\mes \or\copy\dica\global\setbox\dica\hbox{\copy\feb}\or%
+  \copy\ene\global\setbox\ene\hbox{\copy\mar}\or%
+  \copy\feb\global\setbox\feb\hbox{\copy\abr}\or%
+  \copy\mar\global\setbox\mar\hbox{\copy\may}\or%
+  \copy\abr\global\setbox\abr\hbox{\copy\jun}\or%
+  \copy\may\global\setbox\may\hbox{\copy\jul}\or%
+  \copy\jun\global\setbox\jun\hbox{\copy\ago}\or%
+  \copy\jul\global\setbox\jul\hbox{\copy\sep}\or%
+  \copy\ago\global\setbox\ago\hbox{\copy\oct}\or%
+  \copy\sep\global\setbox\sep\hbox{\copy\nov}\or%
+  \copy\oct\global\setbox\oct\hbox{\copy\dic}\or%
+  \copy\nov\global\setbox\nov\hbox{\copy\enes}\fi\special{pdf:ec}}
+
+\def\'#1{\accent19\ifx#1i\i\else #1\fi}
+
+\def\texto{}
+
+\newcount\L\L1
+\def\luna{\ifcase\L \or\char'043\kern6pt {\korec 20:35}\or\or\or\or\or\or%1 ene
+\or\char'110\kern6pt {\korec 16:34}\or\or\or\or\or\or%8
+\or\or\char'040\kern6pt {\korec 20:08}\vskip-2pt\or\or\or\or\or%16
+\or\or\or\char'112\kern6pt {\korec 16:18}\or\or\or\or%24
+\or\or\vskip-1.5pt\or\char'043\kern6pt {\korec 7:13}\vskip-2pt%31
+
+\or\or\or\or\or\or\or\char'110\kern6pt {\korec 10:06}%7 feb
+\or\or\or\or\or\or\or\or\char'040\kern6pt {\korec 14:25}%15
+\or\or\or\or\or\or\or\or\char'112\kern6pt {\korec 2:35}%23
+\or\or\or\or\or
+
+\or\char'043\kern6pt {\korec 18:24}\or\or\or\or\or\or%1 mar
+\or\or\char'110\kern6pt {\korec 5:25}\or\or\or\or\or%9
+\or\or\or\char'040\kern6pt {\korec 6:39}\vskip-2pt\or\or\or\or%17
+\or\or\or\char'112\kern6pt {\korec 10:11}\or\or\or\or%24
+\or\or\or\char'043\kern6pt {\korec 6:20}\vskip-1.5pt%31
+
+\or\or\or\or\or\or\or\or\char'110\kern6pt {\korec 1:07}%8 abr
+\or\or\or\or\or\or\or\char'040\kern6pt {\korec 20:03}%15
+\or\or\or\or\or\or\or\char'112\kern6pt {\korec 16:04}%22
+\or\or\or\or\or\or\or\char'043\kern6pt {\korec 19:10}%29
+\or
+
+\or\or\or\or\or\or\or\char'110\kern6pt {\korec 19:48}%7 may
+\or\or\or\or\or\or\or\or\char'040\kern6pt {\korec 6:28}%15
+\or\or\or\or\or\or\char'112\kern6pt {\korec 21:37}%21
+\or\or\or\or\or\or\or\or\char'043\kern6pt {\korec 8:53}%29
+\or\or
+
+\or\or\or\or\or\or\char'110\kern6pt {\korec 12:18}\or%6 jun
+\or\or\or\or\or\or\char'040\kern6pt {\korec 14:26}\or\vskip-1.5pt%13
+\or\or\or\or\or\or\char'112\kern6pt {\korec 4:20}\or%20
+\or\or\or\or\or\or\char'043\kern6pt {\korec 23:22}\vskip-2pt\or\vskip-2pt%27
+\or\or
+
+\or\or\or\or\or\or\char'110\kern6pt {\korec 1:57}\or%6 jul
+\or\or\or\or\or\char'040\kern6pt {\korec 20:59}\vskip-1.5pt\or\or%12
+\or\or\or\or\or\char'112\kern6pt {\korec 13:31}\or\or%19
+\or\or\or\or\or\or\char'043\kern6pt {\korec 14:22}\or%27
+\or\or\or
+
+\or\or\or\or\char'110\kern6pt {\korec 12:40}\or\or\or%4 ago
+\or\vskip-2pt\or\or\or\char'040\kern6pt {\korec 3:27}\or\or\or%11
+\or\or\or\or\char'112\kern6pt {\korec 1:57}\vskip-2pt\or\or\or%18
+\or\or\or\or\or\char'043\kern6pt {\korec 5:33}\or\or%26
+\or\or\or
+
+\or\or\char'110\kern6pt {\korec 20:58}\or\or\or\or\or%2 sep
+\or\or\char'040\kern6pt {\korec 11:12}\or\or\or\or\or%9
+\or\or\char'112\kern6pt {\korec 17:50}\or\or\or\or\or%16
+\or\or\or\char'043\kern6pt {\korec 20:30}\or\or\or\or%24
+\or\or
+
+\or\or\char'110\kern6pt {\korec 3:49}\or\or\or\or\or%2 oct
+\or\char'040\kern6pt {\korec 21:17}\or\or\or\or\or\or%8
+\or\or\char'112\kern6pt {\korec 12:34}\or\or\or\or\or%16
+\or\or\or\char'043\kern6pt {\korec 10:50}\or\or\or\or%24
+\or\or\or\char'110\kern6pt {\korec 10:25}%31
+
+\or\or\or\or\or\or\or\char'040\kern6pt {\korec 10:16}%7 nov
+\or\or\or\or\or\or\or\or\char'112\kern6pt {\korec 8:58}%15
+\or\or\or\or\or\or\or\or\char'043\kern6pt {\korec 0:12}%23
+\or\or\or\or\or\or\char'110\kern6pt {\korec 17:58}\or\vskip-1.5pt%29
+
+\or\or\or\or\or\or\or\char'040\kern6pt {\korec 2:03}%7 dic
+\or\or\or\or\or\or\or\or\char'112\kern6pt {\korec 5:28}%15
+\or\or\or\or\or\or\or\char'043\kern6pt {\korec 12:27}%22
+\or\or\or\or\or\or\or\char'110\kern6pt {\korec 3:26}%29
+\else\fi\global\advance\L1}
+
+\newif\ifswitch\switchfalse
+
+\newcount\E\E1
+\def\esp{\ifcase\E \or A\~NO NUEVO\global\switchtrue\or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or PROMULGACI\'ON DE LA\break
+CONSTITUCI\'ON DE 1917\global\switchtrue\or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or NATALICIO DE BENITO
+JU\'AREZ\hfill\null\break\noindent INICIO DE LA PRIMAVERA\global\switchtrue\or
+\or \or \or \or \or \or \or JUEVES SANTO\global\switchtrue\or VIERNES SANTO\global\switchtrue\or
+S\'ABADO DE GLORIA\global\switchtrue\or DOMINGO DE PASCUA\global\switchtrue\or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or
+D\'IA DEL TRABAJO\global\switchtrue\or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or ANIVERSARIO DE LA\hfill\break\noindent INDEPENDENCIA~DE~M\'EXICO\global\switchtrue\or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or ANIVERSARIO DE LA\hfill\vskip-1pt\noindent REVOLUCI\'ON MEXICANA\global\switchtrue\or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or \or
+\or \or \or \or \or \or \or \or \or \or \or \or \or
+NAVIDAD\global\switchtrue\or \or \or \or \or \or \else\fi\global\advance\E1}
+
+\def\cuadromes{\diames\global\V\U\global\advance\V by 2
+\vbox{\tabskip=0pt\offinterlineskip
+\def\\{\ifnum\n<\p\ifnum\n=\l\global\advance\l1\global\advance\V-2
+  \hbox{\vrule width.4pt\vbox to\altocaja{\hsize1.44in\hrule height.4pt\kern1pt\vfill
+    \noindent\hfill\mays\hfill\null\vfill\kern2pt\hrule height.4pt}\vrule width.4pt}\else
+    \vrule width.4pt height\altocaja depth0pt width0pt\vrule width.4pt height0pt depth0pt
+    width1.44in\fi\global\advance\n1
+  \else\ifnum\m<\U\hbox{\vrule width.4pt%
+  \ifnum\signoD=0\vbox to\altocaja{\fntsan\hsize1.44in\hrule height.4pt\kern1pt
+    \noindent\kern4pt{\wasy\luna}\hfill {\hvs\MesAzteca}\kern4pt\vskip2pt
+    \vbox to0pt{\leftskip6pt\rightskip6pt plus1fil\baselineskip6.7pt
+      \lineskip1pt\lineskiplimit0pt\immediate\read\santo to\santoral%
+      \halign{####\hfil\cr \vbox{\korec\noindent\esp\vskip1pt}\cr
+      \vbox{\noindent\santoral}\cr}\vss}\vfill
+    \noindent\kern6pt\raise4pt\hbox{\biggfnt\ifswitch\global\switchfalse
+      \special{pdf:bc[1 0 0]}\number\m\special{pdf:ec}\else\number\m\fi}\hfill
+    \ifnum\signoM=0 \setbox\vacia\hbox{\Numeral\DiaAzteca}\null
+    \else\raise46pt\rlap\Numeral\kern\anchobull\raise4pt\hbox{\DiaAzteca}\kern6pt\fi\null\kern2pt\hrule height.4pt}\vrule width.4pt\kern1pt\null
+  \else\vbox to\altocaja{\fntsan\hsize1.44in\hrule height.4pt\kern1pt
+    \noindent\kern4pt{\wasy\luna}\hfill\null\vskip2pt
+    \vbox to0pt{\leftskip6pt\rightskip6pt plus1fil\baselineskip6.7pt
+      \lineskip1pt\lineskiplimit0pt\immediate\read\santo to\santoral%
+      \halign{####\hfil\cr \vbox{\korec\noindent\esp\vskip1pt}\cr
+      \vbox{\noindent\santoral}\cr}\vss}\vfill
+    \noindent\kern6pt\raise4pt\hbox{\biggfnt\ifswitch\global\switchfalse
+      \special{pdf:bc[1 0 0]}\number\m\special{pdf:ec}\else\number\m\fi}\hfill
+    \ifnum\signoM=0 \setbox\vacia=\hbox{\Numeral\DiaAzteca}\null
+    \else\raise46pt\rlap\Numeral\kern\anchobull\raise4pt\hbox{\DiaAzteca}\kern6pt\fi\null\kern2pt\hrule height.4pt}\vrule width.4pt\kern1pt\null\fi}\global\advance\m1\else
+  \ifnum\V>\U\global\advance\V-1
+  \hbox{\vrule width.4pt\vbox to\altocaja{\hsize1.44in\hrule height.4pt\kern1pt\vfill
+    \noindent\hfill\mays\hfill\null\vfill\kern2pt\hrule height.4pt}\vrule
+width.4pt}\fi\fi\fi}
+\def\/{\ifnum\n<\p\ifnum\n=\l\global\advance\l1\global\advance\V-2
+  \hbox{\vrule width.4pt\vbox to\altocaja{\hsize1.44in\hrule height.4pt\kern1pt\vfill
+    \noindent\hfill\mays\hfill\null\vfill\kern2pt\hrule height.4pt}\vrule width.4pt}\else
+    \vrule width.4pt height\altocaja depth0pt width0pt\vrule width.4pt height0pt depth0pt
+    width1.44in\fi\global\advance\n1
+  \else\ifnum\m<\U\hbox{\vrule width.4pt%
+  \ifnum\signoD=0\vbox to\altocaja{\fntsan\hsize1.44in\hrule height.4pt\kern1pt
+    \noindent\kern4pt{\wasy\luna}\hfill {\hvs\MesAzteca}\kern4pt\vskip2pt
+    \vbox to0pt{\leftskip6pt\rightskip6pt plus1fil\baselineskip6.7pt
+      \lineskip1pt\lineskiplimit0pt\immediate\read\santo to\santoral%
+      \halign{####\hfil\cr \vbox{\korec\noindent\esp\vskip1pt}\cr
+      \vbox{\noindent\santoral}\cr}\vss}\vfill
+    \noindent\kern6pt\raise4pt\hbox{\biggfnt\global\switchfalse
+      \special{pdf:bc[1 0 0]}\number\m\special{pdf:ec}}\hfill
+    \ifnum\signoM=0 \setbox\vacia\hbox{\Numeral\DiaAzteca}\null
+    \else\raise46pt\rlap\Numeral\kern\anchobull\raise4pt\hbox{\DiaAzteca}\kern6pt\fi\null\kern2pt\hrule height.4pt}\vrule width.4pt\kern1pt\null
+  \else\vbox to\altocaja{\fntsan\hsize1.44in\hrule height.4pt\kern1pt
+    \noindent\kern4pt{\wasy\luna}\hfill\null\vskip2pt
+    \vbox to0pt{\leftskip6pt\rightskip6pt plus1fil\baselineskip6.7pt
+      \lineskip1pt\lineskiplimit0pt\immediate\read\santo to\santoral%
+      \halign{####\hfil\cr \vbox{\korec\noindent\esp\vskip1pt}\cr
+      \vbox{\noindent\santoral}\cr}\vss}\vfill
+    \noindent\kern6pt\raise4pt\hbox{\biggfnt\global\switchfalse
+      \special{pdf:bc[1 0 0]}\number\m\special{pdf:ec}}\hfill
+    \ifnum\signoM=0 \setbox\vacia=\hbox{\Numeral\DiaAzteca}\null
+    \else\raise46pt\rlap\Numeral\kern\anchobull\raise4pt\hbox{\DiaAzteca}\kern6pt\fi\null\kern2pt\hrule height.4pt}\vrule width.4pt\kern1pt\null\fi}\global\advance\m1\else
+  \ifnum\V>\U\global\advance\V-1
+  \hbox{\vrule width.4pt\vbox to\altocaja{\hsize1.44in\hrule height.4pt\kern1pt\vfill
+    \noindent\hfill\mays\hfill\null\vfill\kern2pt\hrule height.4pt}\vrule width.4pt}\fi\fi\fi}
+\def\z##1{\omit\hidewidth\vbox to.25in{\hsize1.44in\null\vfill
+  \noindent\hfill{\rs##1}\hfill\null\vfill\null}\hidewidth}
+\halign{\strut##\tabskip1pt&##&##&##&##&##&##&##\tabskip0pt\cr
+&\z{Domingo}&\z{Lunes}&\z{Martes}&\z{Mi\'ercoles}&
+\z{Jueves}&\z{Viernes}&\z{S\'abado}\cr
+&\/&\\&\\&\\&\\&\\&\\\cr
+\noalign{\vskip-2pt}
+&\/&\\&\\&\\&\\&\\&\\\cr
+\noalign{\vskip-2pt}
+&\/&\\&\\&\\&\\&\\&\\\cr
+\noalign{\vskip-2pt}
+&\/&\\&\\&\\&\\&\\&\\\cr
+\noalign{\vskip-2pt}
+&\/&\\&\\&\\&\\&\\&\\\cr
+\noalign{\vskip-2pt}
+&\/&\\&\multispan5\hfill\vbox to\altocaja{\hsize7.25in\leftskip0pt plus1fill
+\vskip12pt
+\noindent{\kore\ifnum\mes < 4 \copy\AnioI\else
+\copy\AnioF\fi\kern12pt{\bigggfnt\nommes\kern12pt\number\anio}
+\ifnum\mes = 3 \kern12pt\copy\AnioF\fi}\kern12pt\vfill}\cr}}}
+
+\def\EsBisciesto#1{
+\mod#1|{400}
+\ifnum\residuo = 0\global\aniobistrue\else\global\aniobisfalse\fi
+\mod#1|{100}
+\ifnum\residuo = 0
+  \else\ifaniobis\global\aniobisfalse\else\global\aniobistrue\fi\fi
+\mod#1|4
+\ifnum\residuo = 0\else\global\aniobisfalse\fi}
+
+\def\CuentaDias{\EsBisciesto\anio
+\numanios=-1582  \advance\numanios by\anio
+
+\aux=-19\advance\aux by\numanios\divide\aux by 100\numaniosbis=-\aux
+                                \divide\aux by 4  \advance\numaniosbis by\aux
+\aux=1  \advance\aux by\numanios\divide\aux by 4  \advance\numaniosbis by\aux
+
+\numdias=\numanios  \multiply\numdias by 365
+\advance\numdias by\numaniosbis  \advance\numdias by -287}
+
+\CuentaDias
+\anioE=\number\anioe
+\advance\anioE by \anioS
+\loop\ifnum\anioE > 52 \advance\anioE by -52\repeat
+\ifnum\anioE = 52 \anioE=0\fi               \mod\anioE|4
+\signoA=\residuo
+                            \mod\anioE|{13}
+\signoNA=\residuo   \advance\signoNA by 1
+
+\loop\ifnum\anioE > 13 \advance\anioE by -13\repeat
+\ifnum\anioE = 13 \anioE=0\fi
+\multiply\anioE by 360
+\advance\anioE by \diaS                 \mod\anioE|{13}
+\signoN=\residuo
+
+\hsize10.75in
+\vsize8in
+\hoffset-0.625in
+\voffset-0.75in
+\hfuzz2pt
+\overfullrule0pt
+\nopagenumbers
+\AnioAzteca
+
+\special{pdf:pagesize width 11truein height 8.5truein}
+
+\loop\ifnum\contador < 13
+        \null
+    \vfill
+        \cuadromes
+        \vfill\eject
+    \advance\contador by 1
+\repeat
+
+\eject
+\input resumen
+
+\bye
